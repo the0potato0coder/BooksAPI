@@ -29,6 +29,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Make Maven wrapper executable
+        run: chmod +x ./mvnw
+
       - name: Build with Maven (Linux/macOS)
         run: ./mvnw -B -V -e clean verify
 
