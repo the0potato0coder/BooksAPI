@@ -1,0 +1,15 @@
+{
+  "books": [
+    {
+      "isbn": "9781593275846",
+      "title": "Eloquent JavaScript, Second Edition",
+      "subtitle": "A Modern Introduction to Programming",
+      "author": "Marijn Haverbeke",
+      "published": "2014-12-14T00:00:00.000Z",
+      "publisher": "No Starch Press",
+      "pages": 472,
+      "description": "JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon.",
+      "website": "http://eloquentjavascript.net/"
+    }
+  ]
+}

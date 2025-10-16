@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "Books API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for testing Books API endpoints (GET search, POST search, reload)."
+  },
+  "item": [
+    {
+      "name": "List All Books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "books"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search Books Single Keyword (query param)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books?query=javascript",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "books"],
+          "query": [
+            {"key": "query", "value": "javascript"}
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Search ANY (keywords any match)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"keywords\": [\"modern\", \"press\"],\n  \"matchMode\": \"ANY\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/books/search",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "books", "search"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Search ALL (all keywords must match)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"keywords\": [\"javascript\", \"introduction\"],\n  \"matchMode\": \"ALL\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/books/search",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "books", "search"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST Search No Matches",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"keywords\": [\"fooBarBazNonExist\"],\n  \"matchMode\": \"ANY\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/books/search",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "books", "search"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reload Books Cache",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/books/reload",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "books", "reload"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {"exec": ["// Pre-request script placeholder"], "type": "text/javascript"}
+    },
+    {
+      "listen": "test",
+      "script": {"exec": ["// Global test script placeholder"], "type": "text/javascript"}
+    }
+  ],
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8080"}
+  ]
+}
