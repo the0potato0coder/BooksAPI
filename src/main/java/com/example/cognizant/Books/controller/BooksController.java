@@ -36,4 +36,9 @@ public class BooksController {
         int count = booksService.loadBooks().size();
         return Map.of("count", count, "lastLoaded", booksService.getLastLoaded().toString());
     }
+
+    @GetMapping("/health")
+    public Map<String, String> health() {
+        return Map.of("status", "UP");
+    }
 }
