@@ -1,0 +1,12 @@
+target
+**/target
+*.log
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar.sha1
+**/.idea
+**/.vscode
+*.iml
+.DS_Store
+# Exclude local Maven repository if present
+.m2
