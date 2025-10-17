@@ -5,14 +5,15 @@ COPY pom.xml .
 COPY src ./src
 COPY mvnw .
 COPY .mvn ./.mvn
+
+# --- ADD THIS LINE ---
+RUN chmod +x ./mvnw
+
 RUN ./mvnw -B -V -e clean package -DskipTests
 
 # Stage 2: Create the final, lightweight image
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-# Copy the JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
-# Expose the port your Spring Boot app runs on (default is 8080)
 EXPOSE 8080
-# The command to run your application
 ENTRYPOINT ["java", "-jar", "app.jar"]
