@@ -37,6 +37,8 @@ public class BooksController {
         return Map.of("count", count, "lastLoaded", booksService.getLastLoaded().toString());
     }
 
+
+    //actuator health endpoint
     @GetMapping("/health")
     public Map<String, String> health() {
         return Map.of("status", "UP");
