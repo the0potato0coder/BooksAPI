@@ -13,6 +13,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Tests for the BooksController endpoints.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
@@ -23,6 +26,9 @@ class BooksControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Tests the GET search endpoint.
+     */
     @Test
     void getSearchEndpointWorks() throws Exception {
         mockMvc.perform(get("/api/books").param("query", "javascript"))
@@ -30,6 +36,9 @@ class BooksControllerTest {
                 .andExpect(jsonPath("$[0].title").exists());
     }
 
+    /**
+     * Tests the POST search endpoint with ANY match mode.
+     */
     @Test
     void postSearchEndpointAnyMode() throws Exception {
         String body = "{\"keywords\":[\"modern\",\"press\"],\"matchMode\":\"ANY\"}";

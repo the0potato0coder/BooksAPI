@@ -3,6 +3,10 @@ package com.example.cognizant.Books.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+/**
+ * Model class representing a Book entity.
+ * Contains information about a book such as ISBN, title, author, etc.
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {

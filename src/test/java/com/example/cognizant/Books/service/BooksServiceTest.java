@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for the BooksService.
+ */
 @SpringBootTest
 @TestPropertySource(properties = {
         "books.remote.url=https://invalid.example.com/nonexistent.json"
@@ -19,6 +22,9 @@ class BooksServiceTest {
     @Autowired
     private BooksService booksService;
 
+    /**
+     * Tests that books are loaded from classpath when remote fails.
+     */
     @Test
     void fallbackLoadsFromClasspath() {
         List<Book> books = booksService.loadBooks();
@@ -26,6 +32,9 @@ class BooksServiceTest {
         assertNotNull(books.get(0).getIsbn());
     }
 
+    /**
+     * Tests the search functionality.
+     */
     @Test
     void searchReturnsMatches() {
         List<Book> books = booksService.search("javascript");
