@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books API - Search Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .search-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .search-form form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .search-form input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .search-form select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .search-form button:hover {
+            background-color: #2980b9;
+        }
+        .reload-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .reload-link:hover {
+            background-color: #229954;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+        .book-card:hover {
+            transform: translateY(-2px);
+        }
+        .book-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .book-author {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .book-detail {
+            margin-bottom: 5px;
+            color: #34495e;
+        }
+        .book-detail strong {
+            color: #2c3e50;
+        }
+        .book-description {
+            color: #555;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .no-results {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-top: 40px;
+        }
+        .reload-info {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Books API - Search and Browse Books</h1>
+        <p>Search through our collection of books by title, author, or keywords.</p>
+    </div>
+
+    <div class="search-form">
+        <h3>Basic Search</h3>
+        <form th:action="@{/search}" method="post">
+            <input type="text" name="query" th:value="${query}" placeholder="Enter search query (title, author, etc.)" required>
+            <button type="submit">Search Books</button>
+        </form>
+    </div>
+
+    <div class="search-form">
+        <h3>Advanced Search - Multiple Keywords</h3>
+        <form th:action="@{/search/advanced}" method="post">
+            <input type="text" name="keywords" th:value="${keywords}"
+                   placeholder="Enter keywords separated by commas (e.g., java, spring, programming)" required>
+            <select name="matchMode">
+                <option value="ANY" th:selected="${matchMode == null or matchMode == 'ANY'}">Match ANY keyword</option>
+                <option value="ALL" th:selected="${matchMode == 'ALL'}">Match ALL keywords</option>
+            </select>
+            <button type="submit">Advanced Search</button>
+        </form>
+        <p style="font-size: 14px; color: #666; margin-top: 10px;">
+            <strong>Match ANY:</strong> Books containing at least one of the keywords<br>
+            <strong>Match ALL:</strong> Books containing all of the keywords
+        </p>
+    </div>
+
+    <a href="/reload" class="reload-link">Reload Book Data</a>
+
+    <div th:if="${reloadInfo}" class="reload-info">
+        <h3>Data Reloaded</h3>
+        <p>Loaded <strong th:text="${reloadInfo.count}">0</strong> books.</p>
+        <p>Last loaded: <strong th:text="${reloadInfo.lastLoaded}">N/A</strong></p>
+    </div>
+
+    <div th:if="${books != null and !books.isEmpty()}" class="books-grid">
+        <div th:each="book : ${books}" class="book-card">
+            <div class="book-title" th:text="${book.title}">Book Title</div>
+            <div th:if="${book.subtitle}" class="book-detail">
+                <strong>Subtitle:</strong> <span th:text="${book.subtitle}">Subtitle</span>
+            </div>
+            <div class="book-author">
+                <strong>Author:</strong> <span th:text="${book.author}">Author</span>
+            </div>
+            <div th:if="${book.publisher}" class="book-detail">
+                <strong>Publisher:</strong> <span th:text="${book.publisher}">Publisher</span>
+            </div>
+            <div th:if="${book.published}" class="book-detail">
+                <strong>Published:</strong> <span th:text="${book.published}">Published Date</span>
+            </div>
+            <div th:if="${book.pages}" class="book-detail">
+                <strong>Pages:</strong> <span th:text="${book.pages}">Pages</span>
+            </div>
+            <div th:if="${book.isbn}" class="book-detail">
+                <strong>ISBN:</strong> <span th:text="${book.isbn}">ISBN</span>
+            </div>
+            <div th:if="${book.description}" class="book-description" th:text="${book.description}">Description</div>
+            <div th:if="${book.website}" class="book-detail">
+                <strong>Website:</strong> <a th:href="${book.website}" th:text="${book.website}" target="_blank">Website</a>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${books != null and books.isEmpty() and (query != null or keywords != null)}" class="no-results">
+        <p th:if="${query != null}">No books found matching your search query: "<strong th:text="${query}">query</strong>"</p>
+        <p th:if="${keywords != null}">No books found matching your keywords: "<strong th:text="${keywords}">keywords</strong>" (<span th:text="${matchMode == 'ALL' ? 'ALL' : 'ANY'}">ANY</span> match)</p>
+        <p>Try different search terms or reload the data.</p>
+    </div>
+</body>
+</html>
