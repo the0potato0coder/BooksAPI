@@ -174,42 +174,4 @@ postman_environment.json
 README.md
 HELP.md
 ```
-
-## Extending / Next Steps
-- Pagination & sorting (e.g., by published date or title).
-- ETag / conditional GET for client-side caching.
-- Scheduled refresh or cache TTL invalidation.
-- Add OpenAPI/Swagger via `springdoc-openapi` dependency.
-- Validation & error responses for malformed POST bodies.
-- Metrics & tracing integration (Micrometer / OpenTelemetry).
-- Containerization (Dockerfile + CI pipeline).
-
-## Using GitHub Actions (CI)
-
-This project includes a GitHub Actions workflow that builds and tests the project automatically.
-
-How to run it:
-
-1. Push a commit to the `main` branch or open a pull request — the workflow will run automatically.
-2. Or trigger it manually from the GitHub UI: go to the "Actions" tab, select the workflow named `CI`, then click "Run workflow".
-
-What the workflow does:
-
-- Checks out your repository
-- Sets up Java 21
-- Uses the Maven wrapper (`mvnw` / `mvnw.cmd`) to build and run tests
-- Caches Maven dependencies to speed up subsequent runs
-
-How to view results:
-
-1. On GitHub, open the "Actions" tab and choose the most recent run. Steps and logs are visible there.
-2. If a step fails, expand it to see the console output. The error message usually points to the failing test or build issue.
-
-Optional: GitHub Badge
-
-You can add a status badge to this README to show the build status. After the workflow runs, copy the badge from the workflow page and paste it at the top of this file.
-
-If you'd like, I can add the badge automatically once you confirm the workflow runs on GitHub. 
-
----
 Feel free to adapt or extend. PRs / improvements welcome.
